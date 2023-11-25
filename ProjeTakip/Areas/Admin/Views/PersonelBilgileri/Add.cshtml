@@ -1,0 +1,154 @@
+﻿@model Personel
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Personel</a>
+            </li>
+
+        </ul>
+        <div class="card mb-4">
+            <h5 class="card-header">Personel Ekle</h5>
+            <!-- Account -->
+            <div class="card-body">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                    <img src="~/TEMA/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                    <div class="button-wrapper">
+                        <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block">Yeni fotoğraf yükle</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg">
+                        </label>
+                        <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                            <i class="bx bx-reset d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Sıfırla</span>
+                        </button>
+
+                        <p class="text-muted mb-0">JPG, GIF veya PNG'ye izin verilir. Maksimum boyut 800K</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-0">
+            <div class="card-body">
+                <form id="formAccountSettings" method="post">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="Ad" class="form-label">Adınız</label>
+                            <input class="form-control" id="ad" type="text">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="Soyad" class="form-label">Soyadınız</label>
+                            <input class="form-control" type="text" id="soyad">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="Email" class="form-label">E-Mail</label>
+                            <input class="form-control" type="text"  id="email" placeholder="john.doe@example.com">
+                        </div><div class="mb-3 col-md-6">
+                            <label asp-for="Departman" class="form-label">Departman</label>
+                            <input class="form-control" type="text" id="departman">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="Pozisyon" class="form-label">Pozisyon</label>
+                            <input class="form-control" type="text" id="pozisyon">
+                            @* <select id="defaultSelect" class="form-select">
+                                <option>----</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select> *@
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label" asp-for="Telefon">Telefon Numarası</label>
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text">TR (+90)</span>
+                                <input type="text" id="telefon"  class="form-control" placeholder="532 727 8009">
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="Adres" class="form-label">Adres</label>
+                            <input type="text" class="form-control" id="adres" placeholder="Adres">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="DogumTarihi" class="form-label">Doğum Tarihi</label>
+                            <input class="form-control" type="date" value="05.09.1998" id="dogumTarihit">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label asp-for="MedeniHal" class="form-label">Medeni Hal</label>
+                            <input class="form-control" type="text" id="medeniHal">
+                            @* <select id="defaultSelect" class="form-select">
+                                <option>----</option>
+                                <option value="1">Bekar</option>
+                                <option value="2">Evli</option>
+                            </select> *@
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button id="btnEkle" type="submit" class="btn btn-primary me-2">Değişiklikleri Kaydet</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /Account -->
+        </div>
+        <div class="card">
+            <h5 class="card-header">Hesap Silme</h5>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading fw-bold mb-1">Hesabınızı silmek istediğinizden emin misiniz?</h6>
+                        <p class="mb-0">Hesabınızı sildikten sonra geri dönüşü yoktur. Lütfen emin olun.</p>
+                    </div>
+                </div>
+                <form id="formAccountDeactivation" onsubmit="return false">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
+                        <label class="form-check-label" for="accountActivation">Hesabımın devre dışı bırakılmasını onaylıyorum.</label>
+                    </div>
+                    <button type="submit" class="btn btn-danger deactivate-account">Hesabı Devre Dışı Bırak</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+ $(document).ready(function () {
+        $("#btnEkle").click(function () {
+            // Form verilerini al
+            var formData = {
+                Ad: $("#ad").val(),
+                Soyad: $("#soyad").val(),
+                Email: $("#email").val(),
+                Telefon: $("#telefon").val(),
+                Pozisyon: $("#pozisyon").val(),
+                Departman: $("#departman").val(),
+                Adres: $("#adres").val(),
+                Doğum Tarihi: $("#dogumTarihi").val(),
+                Medeni Hal: $("#medeniHal").val()
+              
+            };
+
+           
+            $.ajax({
+                type: "POST",
+                url: "/PersonelBilgileri/Add",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    // Başarıyla tamamlandığında burada bir şeyler yapabilirsiniz
+                    console.log("İşlem başarılı!");
+                },
+                error: function (error) {
+                    // Hata durumunda burada bir şeyler yapabilirsiniz
+                    console.log("Hata oluştu: " + error.responseText);
+                }
+            });
+        });
+    });
+
+}
+
+
+
+
